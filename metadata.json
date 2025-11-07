@@ -1,0 +1,5 @@
+{
+  "name": "Links",
+  "description": "사용자가 만든 웹사이트를 블록 형태로 모아서 관리할 수 있는 개인 대시보드입니다. Gemini API를 사용하여 URL을 기반으로 웹사이트의 제목, 설명, 태그를 자동으로 생성합니다.",
+  "requestFramePermissions": []
+}
