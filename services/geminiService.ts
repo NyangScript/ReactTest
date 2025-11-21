@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 
 export interface WebsiteInfo {
@@ -43,7 +42,6 @@ export const generateWebsiteInfo = async (url: string): Promise<WebsiteInfo> => 
         const jsonText = response.text.trim();
         const parsedData = JSON.parse(jsonText);
         
-        // Ensure tags are an array of strings, even if Gemini returns a single string.
         if (typeof parsedData.tags === 'string') {
             parsedData.tags = parsedData.tags.split(',').map((tag: string) => tag.trim());
         }
@@ -53,5 +51,24 @@ export const generateWebsiteInfo = async (url: string): Promise<WebsiteInfo> => 
     } catch (error) {
         console.error("Gemini API 호출 중 오류 발생:", error);
         throw new Error("웹사이트 정보 생성에 실패했습니다. URL을 확인하거나 다시 시도해주세요.");
+    }
+};
+
+// FIX: Added `generateWebsiteIdea` function to resolve the import error in `pages/IdeaGeneratorPage.tsx`.
+export const generateWebsiteIdea = async (): Promise<string> => {
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: "중학생(10대)들이 흥미를 느낄 만한 독창적이고 재미있는 웹사이트 아이디어를 한 문장으로 간결하게 제안해주세요. 예를 들어, '나만의 웹툰 캐릭터를 만들고 스토리를 공유하는 플랫폼'처럼요.",
+        });
+
+        if (response.text) {
+             return response.text.trim();
+        } else {
+             throw new Error("API로부터 유효한 응답을 받지 못했습니다.");
+        }
+    } catch (error) {
+        console.error("Gemini API (아이디어 생성) 호출 중 오류 발생:", error);
+        throw new Error("웹사이트 아이디어 생성에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
 };

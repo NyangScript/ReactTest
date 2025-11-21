@@ -1,35 +1,35 @@
 import React, { useState, useCallback } from 'react';
 import { Website } from './types';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import WebsiteCard from './components/WebsiteCard';
 import AddWebsiteModal from './components/AddWebsiteModal';
-import Footer from './components/Footer';
 
 // 초기 목업 데이터
 const initialWebsites: Website[] = [
   {
     id: '1',
-    title: '나만의 포트폴리오',
-    description: 'React와 Tailwind CSS로 제작된 개인 프로젝트 포트폴리오 사이트입니다. 저의 작업물과 기술 스택을 소개합니다.',
-    url: 'https://example.com/portfolio',
-    imageUrl: 'https://picsum.photos/seed/1/600/400',
-    tags: ['React', 'Portfolio', 'WebDev'],
+    title: '네이버',
+    description: '대한민국 대표 검색 엔진. 뉴스, 쇼핑, 커뮤니티 등 다양한 서비스를 제공합니다.',
+    url: 'https://www.naver.com',
+    imageUrl: `https://picsum.photos/seed/naver/600/400`,
+    tags: ['포털', '검색', '뉴스'],
   },
   {
     id: '2',
-    title: '요리 레시피 블로그',
-    description: '쉽고 맛있는 요리 레시피를 공유하는 블로그입니다. 주간 메뉴와 요리 팁을 확인하세요.',
-    url: 'https://example.com/recipes',
-    imageUrl: 'https://picsum.photos/seed/2/600/400',
-    tags: ['Cooking', 'Food', 'Blog'],
+    title: '나무위키',
+    description: '누구나 기여할 수 있는 위키. 다양한 주제에 대한 깊이 있는 정보를 담고 있습니다.',
+    url: 'https://namu.wiki',
+    imageUrl: `https://picsum.photos/seed/namu/600/400`,
+    tags: ['위키', '백과사전', '정보'],
   },
   {
     id: '3',
-    title: '여행 사진 갤러리',
-    description: '세계 각지를 여행하며 찍은 사진들을 모아놓은 갤러리입니다. 아름다운 풍경을 감상하세요.',
-    url: 'https://example.com/travel',
-    imageUrl: 'https://picsum.photos/seed/3/600/400',
-    tags: ['Travel', 'Photography', 'Gallery'],
+    title: 'YouTube',
+    description: '전 세계 최대 동영상 공유 플랫폼. 다양한 콘텐츠를 시청하고 공유할 수 있습니다.',
+    url: 'https://www.youtube.com',
+    imageUrl: `https://picsum.photos/seed/youtube/600/400`,
+    tags: ['동영상', '스트리밍', '엔터테인먼트'],
   },
 ];
 
@@ -83,6 +83,7 @@ const App: React.FC = () => {
           ))}
         </div>
       </main>
+      <Footer />
       {isModalOpen && (
         <AddWebsiteModal
           isOpen={isModalOpen}
@@ -91,7 +92,6 @@ const App: React.FC = () => {
           websiteToEdit={editingWebsite}
         />
       )}
-      <Footer />
     </div>
   );
 };

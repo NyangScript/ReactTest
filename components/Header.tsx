@@ -9,11 +9,11 @@ const Header: React.FC<HeaderProps> = ({ onAddWebsite }) => {
   return (
     <header className="bg-slate-900/70 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-700">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-white tracking-tight">
+        <a href="/" className="text-2xl font-bold text-white tracking-tight">
           Links
-        </h1>
+        </a>
         <nav className="hidden md:flex items-center gap-6">
-            <a href="#" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">홈</a>
+            <a href="/" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">홈</a>
             <a href="#" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">소개</a>
             <a href="#" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">연락처</a>
         </nav>

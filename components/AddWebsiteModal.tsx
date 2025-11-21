@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Website } from '../types';
 import { generateWebsiteInfo, WebsiteInfo } from '../services/geminiService';
