@@ -9,25 +9,26 @@ interface WebsiteCardProps {
   website: Website;
   onEdit: () => void;
   onDelete: () => void;
+  onVisit: () => void;
 }
 
-const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onEdit, onDelete }) => {
+const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onEdit, onDelete, onVisit }) => {
   return (
     <div className="bg-slate-800 rounded-lg shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-brand-primary/40 hover:scale-[1.02] flex flex-col animate-fade-in">
       <div className="relative">
         <img src={website.imageUrl} alt={website.title} className="w-full h-48 object-cover" />
         <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button onClick={onEdit} className="p-2 bg-slate-900/70 rounded-full text-slate-300 hover:text-white hover:bg-brand-primary transition-colors">
+          <button onClick={(e) => { e.stopPropagation(); onEdit(); }} className="p-2 bg-slate-900/70 rounded-full text-slate-300 hover:text-white hover:bg-brand-primary transition-colors">
             <EditIcon className="w-5 h-5" />
           </button>
-          <button onClick={onDelete} className="p-2 bg-slate-900/70 rounded-full text-slate-300 hover:text-white hover:bg-red-500 transition-colors">
+          <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className="p-2 bg-slate-900/70 rounded-full text-slate-300 hover:text-white hover:bg-red-500 transition-colors">
             <TrashIcon className="w-5 h-5" />
           </button>
         </div>
       </div>
       <div className="p-5 flex flex-col flex-grow">
         <h3 className="text-xl font-bold text-white mb-2 truncate">{website.title}</h3>
-        <p className="text-slate-400 text-sm mb-4 flex-grow">
+        <p className="text-slate-400 text-sm mb-4 flex-grow line-clamp-3">
           {website.description}
         </p>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -39,15 +40,13 @@ const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onEdit, onDelete }) 
         </div>
       </div>
       <div className="p-5 pt-0 mt-auto">
-        <a
-          href={website.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 bg-slate-700 hover:bg-brand-primary text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300"
+        <button
+          onClick={onVisit}
+          className="w-full flex items-center justify-center gap-2 bg-slate-700 hover:bg-brand-primary text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 cursor-pointer"
         >
           <span>방문하기</span>
           <ExternalLinkIcon className="w-4 h-4" />
-        </a>
+        </button>
       </div>
     </div>
   );
