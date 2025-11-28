@@ -1,45 +1,60 @@
 
 import React, { useState, useCallback } from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Website } from './types';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import WebsiteCard from './components/WebsiteCard';
+import Layout from './components/Layout';
+import DashboardPage from './pages/DashboardPage';
+import IdeaGeneratorPage from './pages/IdeaGeneratorPage';
+import SpaceShooterPage from './pages/SpaceShooterPage';
+import WeatherPage from './pages/WeatherPage';
+import TodoPage from './pages/TodoPage';
+import CalculatorPage from './pages/CalculatorPage';
 import AddWebsiteModal from './components/AddWebsiteModal';
-import WebsiteViewer from './components/WebsiteViewer';
 
-// 초기 목업 데이터
+// 초기 목업 데이터 - 4개의 독립적인 페이지로 교체
 const initialWebsites: Website[] = [
   {
     id: '1',
-    title: '네이버',
-    description: '대한민국 대표 검색 엔진. 뉴스, 쇼핑, 커뮤니티 등 다양한 서비스를 제공합니다.',
-    url: 'https://www.naver.com',
-    imageUrl: `https://picsum.photos/seed/naver/600/400`,
-    tags: ['포털', '검색', '뉴스'],
+    title: '스페이스 슈터',
+    description: 'React와 Canvas로 직접 구현한 우주 슈팅 게임입니다. 적들을 물리치고 최고 점수에 도전하세요!',
+    url: '', // 내부 페이지이므로 비워둠
+    imageUrl: 'https://picsum.photos/seed/shooter/600/400',
+    tags: ['게임', 'Canvas', '액션'],
+    path: '/space-shooter'
   },
   {
     id: '2',
-    title: '나무위키',
-    description: '누구나 기여할 수 있는 위키. 다양한 주제에 대한 깊이 있는 정보를 담고 있습니다.',
-    url: 'https://namu.wiki',
-    imageUrl: `https://picsum.photos/seed/namu/600/400`,
-    tags: ['위키', '백과사전', '정보'],
+    title: '날씨 대시보드',
+    description: '실시간 날씨 정보를 확인할 수 있는 깔끔한 대시보드입니다. 원하는 도시를 검색해보세요.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/weather/600/400',
+    tags: ['유틸리티', '정보', 'API'],
+    path: '/weather'
   },
   {
     id: '3',
-    title: 'YouTube',
-    description: '전 세계 최대 동영상 공유 플랫폼. 다양한 콘텐츠를 시청하고 공유할 수 있습니다.',
-    url: 'https://www.youtube.com',
-    imageUrl: `https://picsum.photos/seed/youtube/600/400`,
-    tags: ['동영상', '스트리밍', '엔터테인먼트'],
+    title: '할 일 목록 (Todo)',
+    description: '오늘의 할 일을 기록하고 관리하는 생산성 도구입니다. 완료된 항목을 체크하여 관리하세요.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/todo/600/400',
+    tags: ['생산성', '관리', '유틸리티'],
+    path: '/todo'
   },
+  {
+    id: '4',
+    title: '간편 계산기',
+    description: '빠르고 간편하게 사칙연산을 수행할 수 있는 웹 계산기입니다.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/calc/600/400',
+    tags: ['도구', '수학', '계산'],
+    path: '/calculator'
+  }
 ];
 
 const App: React.FC = () => {
   const [websites, setWebsites] = useState<Website[]>(initialWebsites);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingWebsite, setEditingWebsite] = useState<Website | null>(null);
-  const [viewingWebsite, setViewingWebsite] = useState<Website | null>(null);
 
   const openModal = useCallback(() => setIsModalOpen(true), []);
   const closeModal = useCallback(() => {
@@ -48,8 +63,9 @@ const App: React.FC = () => {
   }, []);
 
   const handleAddWebsite = useCallback((website: Omit<Website, 'id'>) => {
+    // 내부 페이지 추가는 코드 수정이 필요하므로, 여기서는 커스텀 카드만 추가됨 (path가 없으면 동작하지 않을 수 있음)
     setWebsites(prev => [
-      { ...website, id: new Date().toISOString(), imageUrl: `https://picsum.photos/seed/${new Date().getTime()}/600/400` },
+      { ...website, id: new Date().toISOString(), imageUrl: `https://picsum.photos/seed/${new Date().getTime()}/600/400`, path: website.path || '/' },
       ...prev
     ]);
     closeModal();
@@ -61,51 +77,36 @@ const App: React.FC = () => {
   }, [closeModal]);
 
   const handleDeleteWebsite = useCallback((id: string) => {
-    if(window.confirm('정말로 이 웹사이트를 삭제하시겠습니까?')) {
+    if(window.confirm('정말로 이 항목을 삭제하시겠습니까?')) {
       setWebsites(prev => prev.filter(w => w.id !== id));
-      // 만약 삭제된 웹사이트를 보고 있었다면 뷰어 닫기
-      if (viewingWebsite?.id === id) {
-        setViewingWebsite(null);
-      }
     }
-  }, [viewingWebsite]);
+  }, []);
 
   const handleEditWebsite = useCallback((website: Website) => {
     setEditingWebsite(website);
     openModal();
   }, [openModal]);
 
-  const handleVisitWebsite = useCallback((website: Website) => {
-    setViewingWebsite(website);
-  }, []);
-
-  const closeViewer = useCallback(() => {
-    setViewingWebsite(null);
-  }, []);
+  const dashboardContext = {
+    websites,
+    handleEditWebsite,
+    handleDeleteWebsite
+  };
 
   return (
-    <div className="min-h-screen bg-slate-900 font-sans flex flex-col">
-      <Header onAddWebsite={openModal} />
-      <main className="container mx-auto px-4 py-8 flex-grow flex flex-col">
-        {viewingWebsite ? (
-          <div className="flex-grow h-full">
-             <WebsiteViewer website={viewingWebsite} onClose={closeViewer} />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {websites.map(website => (
-              <WebsiteCard
-                key={website.id}
-                website={website}
-                onEdit={() => handleEditWebsite(website)}
-                onDelete={() => handleDeleteWebsite(website.id)}
-                onVisit={() => handleVisitWebsite(website)}
-              />
-            ))}
-          </div>
-        )}
-      </main>
-      <Footer />
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Layout onAddWebsite={openModal} outletContext={dashboardContext} />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="idea-generator" element={<IdeaGeneratorPage />} />
+          
+          {/* 4개의 내부 페이지 라우트 */}
+          <Route path="space-shooter" element={<SpaceShooterPage />} />
+          <Route path="weather" element={<WeatherPage />} />
+          <Route path="todo" element={<TodoPage />} />
+          <Route path="calculator" element={<CalculatorPage />} />
+        </Route>
+      </Routes>
       {isModalOpen && (
         <AddWebsiteModal
           isOpen={isModalOpen}
@@ -114,7 +115,7 @@ const App: React.FC = () => {
           websiteToEdit={editingWebsite}
         />
       )}
-    </div>
+    </HashRouter>
   );
 };
 
