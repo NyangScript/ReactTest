@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Website } from './types';
 import Layout from './components/Layout';
 import DashboardPage from './pages/DashboardPage';
@@ -9,6 +9,12 @@ import SpaceShooterPage from './pages/SpaceShooterPage';
 import WeatherPage from './pages/WeatherPage';
 import TodoPage from './pages/TodoPage';
 import CalculatorPage from './pages/CalculatorPage';
+import MemoriaPage from './pages/MemoriaPage';
+import PomodoroPage from './pages/PomodoroPage';
+import UnitConverterPage from './pages/UnitConverterPage';
+import TextAnalyzerPage from './pages/TextAnalyzerPage';
+import BreathingPage from './pages/BreathingPage';
+import WorldClockPage from './pages/WorldClockPage';
 import AddWebsiteModal from './components/AddWebsiteModal';
 
 // 초기 목업 데이터 - 4개의 독립적인 페이지로 교체
@@ -48,6 +54,60 @@ const initialWebsites: Website[] = [
     imageUrl: 'https://picsum.photos/seed/calc/600/400',
     tags: ['도구', '수학', '계산'],
     path: '/calculator'
+  },
+  {
+    id: '5',
+    title: 'Memoria',
+    description: '보호자용 어플리케이션으로 환자의 행동을 모니터링하고 이상 상황을 감지합니다.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/memoria/600/400',
+    tags: ['헬스케어', '모니터링', 'AI'],
+    path: '/memoria'
+  },
+  {
+    id: '6',
+    title: '뽀모도로 타이머',
+    description: '25분 집중, 5분 휴식으로 효율을 높이세요.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/pomodoro/600/400',
+    tags: ['생산성', '타이머'],
+    path: '/pomodoro'
+  },
+  {
+    id: '7',
+    title: '단위 변환기',
+    description: '길이, 무게 등 다양한 단위를 쉽게 변환하세요.',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/unit/600/400',
+    tags: ['도구', '변환'],
+    path: '/unit-converter'
+  },
+  {
+    id: '8',
+    title: '텍스트 분석기',
+    description: '글자 수, 단어 수를 세고 텍스트를 변환하세요.',
+    url: ' ',
+    imageUrl: 'https://picsum.photos/seed/text/600/400',
+    tags: ['도구', '텍스트'],
+    path: '/text-analyzer'
+  },
+  {
+    id: '9',
+    title: '호흡 운동',
+    description: '가이드를 따라 호흡하며 마음을 안정시키세요.',
+    url: ' ',
+    imageUrl: 'https://picsum.photos/seed/breathe/600/400',
+    tags: ['건강', '명상'],
+    path: '/breathing'
+  },
+  {
+    id: '10',
+    title: '세계 시계',
+    description: '뉴욕, 런던 등 세계 주요 도시의 시간을 확인하세요.',
+    url: ' ',
+    imageUrl: 'https://picsum.photos/seed/clock/600/400',
+    tags: ['정보', '시간'],
+    path: '/world-clock'
   }
 ];
 
@@ -94,17 +154,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <HashRouter>
+    <BrowserRouter basename="/ReactTest">
       <Routes>
         <Route path="/" element={<Layout onAddWebsite={openModal} outletContext={dashboardContext} />}>
           <Route index element={<DashboardPage />} />
           <Route path="idea-generator" element={<IdeaGeneratorPage />} />
           
-          {/* 4개의 내부 페이지 라우트 */}
+          {/* 내부 페이지 라우트 */}
           <Route path="space-shooter" element={<SpaceShooterPage />} />
           <Route path="weather" element={<WeatherPage />} />
           <Route path="todo" element={<TodoPage />} />
           <Route path="calculator" element={<CalculatorPage />} />
+          <Route path="memoria/*" element={<MemoriaPage />} />
+          <Route path="pomodoro" element={<PomodoroPage />} />
+          <Route path="unit-converter" element={<UnitConverterPage />} />
+          <Route path="text-analyzer" element={<TextAnalyzerPage />} />
+          <Route path="breathing" element={<BreathingPage />} />
+          <Route path="world-clock" element={<WorldClockPage />} />
         </Route>
       </Routes>
       {isModalOpen && (
@@ -115,7 +181,7 @@ const App: React.FC = () => {
           websiteToEdit={editingWebsite}
         />
       )}
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
