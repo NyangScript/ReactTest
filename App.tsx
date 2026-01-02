@@ -16,7 +16,7 @@ import TextAnalyzerPage from './pages/TextAnalyzerPage';
 import BreathingPage from './pages/BreathingPage';
 import WorldClockPage from './pages/WorldClockPage';
 import AddWebsiteModal from './components/AddWebsiteModal';
-import Summary from './pages/Summary';
+
 
 // 초기 목업 데이터 - 4개의 독립적인 페이지로 교체
 const initialWebsites: Website[] = [
@@ -109,15 +109,6 @@ const initialWebsites: Website[] = [
     imageUrl: 'https://picsum.photos/seed/clock/600/400',
     tags: ['정보', '시간'],
     path: '/world-clock'
-  },
-  {
-    id: '11',
-    title: 'AI 요약기',
-    description: 'Create a new summary',
-    url: '',
-    imageUrl: 'https://picsum.photos/seed/clock/600/400',
-    tags: ['정보', '요약'],
-    path: '/summary'
   }
 ];
 
@@ -181,7 +172,6 @@ const App: React.FC = () => {
           <Route path="text-analyzer" element={<TextAnalyzerPage />} />
           <Route path="breathing" element={<BreathingPage />} />
           <Route path="world-clock" element={<WorldClockPage />} />
-          <Route path="summary" element={<Summary />} />
         </Route>
       </Routes>
       {isModalOpen && (
