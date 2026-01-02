@@ -16,6 +16,7 @@ import TextAnalyzerPage from './pages/TextAnalyzerPage';
 import BreathingPage from './pages/BreathingPage';
 import WorldClockPage from './pages/WorldClockPage';
 import AddWebsiteModal from './components/AddWebsiteModal';
+import Summary from './pages/Summary';
 
 // 초기 목업 데이터 - 4개의 독립적인 페이지로 교체
 const initialWebsites: Website[] = [
@@ -86,7 +87,7 @@ const initialWebsites: Website[] = [
     id: '8',
     title: '텍스트 분석기',
     description: '글자 수, 단어 수를 세고 텍스트를 변환하세요.',
-    url: ' ',
+    url: '',
     imageUrl: 'https://picsum.photos/seed/text/600/400',
     tags: ['도구', '텍스트'],
     path: '/text-analyzer'
@@ -95,7 +96,7 @@ const initialWebsites: Website[] = [
     id: '9',
     title: '호흡 운동',
     description: '가이드를 따라 호흡하며 마음을 안정시키세요.',
-    url: ' ',
+    url: '',
     imageUrl: 'https://picsum.photos/seed/breathe/600/400',
     tags: ['건강', '명상'],
     path: '/breathing'
@@ -104,10 +105,19 @@ const initialWebsites: Website[] = [
     id: '10',
     title: '세계 시계',
     description: '뉴욕, 런던 등 세계 주요 도시의 시간을 확인하세요.',
-    url: ' ',
+    url: '',
     imageUrl: 'https://picsum.photos/seed/clock/600/400',
     tags: ['정보', '시간'],
     path: '/world-clock'
+  },
+  {
+    id: '11',
+    title: 'AI 요약기',
+    description: 'Create a new summary',
+    url: '',
+    imageUrl: 'https://picsum.photos/seed/clock/600/400',
+    tags: ['정보', '요약'],
+    path: '/summary'
   }
 ];
 
@@ -171,6 +181,7 @@ const App: React.FC = () => {
           <Route path="text-analyzer" element={<TextAnalyzerPage />} />
           <Route path="breathing" element={<BreathingPage />} />
           <Route path="world-clock" element={<WorldClockPage />} />
+          <Route path="summary" element={<Summary />} />
         </Route>
       </Routes>
       {isModalOpen && (
